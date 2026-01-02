@@ -29,7 +29,12 @@ We need to deploy the Backend **first** so we can get its URL for the Frontend.
 1.  Go to [MongoDB Atlas](https://www.mongodb.com/atlas).
 2.  Create a free cluster.
 3.  Create a database user (username/password).
-4.  Get the connection string: `mongodb+srv://<username>:<password>@cluster0.mongodb.net/chatbot?retryWrites=true&w=majority`.
+4.  **Network Access (Crucial):**
+    *   Go to "Network Access" in the sidebar.
+    *   Click "Add IP Address".
+    *   Select **"Allow Access from Anywhere"** (0.0.0.0/0).
+    *   *Render servers change IPs, so you must allow all.*
+5.  Get the connection string: `mongodb+srv://<username>:<password>@cluster0.mongodb.net/chatbot?retryWrites=true&w=majority`.
 
 ## 2. Frontend Deployment (Vercel)
 
