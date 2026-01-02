@@ -58,3 +58,17 @@ Now that we have the **Frontend URL**, we need to tell the Backend about it (for
 4.  **Save Changes** (Render will automatically redeploy).
 
 🎉 **Done!** Your ChatBot is now live and fully connected.
+
+## 4. How to Update Your App (Making Changes)
+
+**Important:** You do **not** edit code directly on Vercel or Render. You edit on your computer and push to GitHub.
+
+1.  **Make changes** to your code locally (in VS Code).
+2.  **Save and Commit** the changes:
+    ```bash
+    git add .
+    git commit -m "Description of changes"
+    git push origin main
+    ```
+3.  **Automatic Redeploy**: Vercel and Render are connected to your GitHub. They will see the new code and **automatically** update your live site within minutes.
+
