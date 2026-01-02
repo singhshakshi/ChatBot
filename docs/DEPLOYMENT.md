@@ -4,7 +4,7 @@ This guide will help you deploy the ChatBot application to the web for free.
 
 ## 1. Backend Deployment (Render)
 
-We will use [Render](https://render.com/) because it supports Node.js and works well for free.
+We need to deploy the Backend **first** so we can get its URL for the Frontend.
 
 ### Steps:
 1.  Push your latest code to GitHub.
@@ -15,14 +15,15 @@ We will use [Render](https://render.com/) because it supports Node.js and works 
     -   **Root Directory**: `backend`
     -   **Build Command**: `npm install`
     -   **Start Command**: `node src/server.js`
-    -   **Environment Variables** (Add these in the "Environment" tab):
+    -   **Environment Variables**:
         -   `NODE_ENV`: `production`
-        -   `PORT`: `5001` (or let Render assign one, usually uses `PORT`)
-        -   `MONGODB_URI`: Your MongoDB Atlas connection string (see below).
+        -   `PORT`: `5001`
+        -   `MONGODB_URI`: **Use the connection string provided by MongoDB Atlas**.
+            -   *It looks like: `mongodb+srv://user:pass@cluster.mongodb.net/dbname...`*
         -   `JWT_SECRET`: A long random string.
         -   `GEMINI_API_KEY`: Your Google Gemini API Key.
         -   `HF_ACCESS_TOKEN`: Your Hugging Face Token.
-        -   `FRONTEND_URL`: The URL of your frontend (you'll get this in step 2).
+        -   `FRONTEND_URL`: **Put `*` for now** (We will update this in Step 3).
 
 ### MongoDB Atlas (Database)
 1.  Go to [MongoDB Atlas](https://www.mongodb.com/atlas).
@@ -32,7 +33,7 @@ We will use [Render](https://render.com/) because it supports Node.js and works 
 
 ## 2. Frontend Deployment (Vercel)
 
-We will use [Vercel](https://vercel.com/) for the React frontend.
+Now that the Backend is deploying, we can deploy the Frontend.
 
 ### Steps:
 1.  Sign up for [Vercel](https://vercel.com/signup).
@@ -42,14 +43,18 @@ We will use [Vercel](https://vercel.com/) for the React frontend.
     -   **Build Command**: `vite build` (Default is usually correct).
     -   **Output Directory**: `dist` (Default is usually correct).
 4.  **Environment Variables**:
-    -   `VITE_API_URL`: The URL of your **Backend** from Step 1 (e.g., `https://chatbot-backend.onrender.com/api`).
-        -   *Note: Make sure to add `/api` at the end.*
+    -   `VITE_API_URL`: **The URL of your Backend** from Step 1.
+        -   *Example: `https://chatbot-backend.onrender.com/api`*
+        -   *IMPORTANT: Make sure to add `/api` at the end!*
 5.  Click **Deploy**.
 
-## 3. Final Connection
-1.  Once the Frontend is deployed, copy its URL (e.g., `https://chatbot-frontend.vercel.app`).
-2.  Go back to **Render** (Backend) -> Environment Variables.
-3.  Update (or Add) `FRONTEND_URL` with your Vercel URL.
-4.  **Redeploy** the Backend (or it might auto-restart).
+## 3. Final Connection (The "Handshake")
 
-🎉 Your ChatBot is now live!
+Now that we have the **Frontend URL**, we need to tell the Backend about it (for security/CORS).
+
+1.  Copy your new **Frontend URL** from Vercel (e.g., `https://chatbot-frontend.vercel.app`).
+2.  Go back to **Render** (Backend) -> **Environment**.
+3.  Edit `FRONTEND_URL` and replace `*` with your actual Frontend URL.
+4.  **Save Changes** (Render will automatically redeploy).
+
+🎉 **Done!** Your ChatBot is now live and fully connected.
